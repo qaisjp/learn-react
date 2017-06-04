@@ -6,7 +6,7 @@ class HelloUser extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: '@qaisjp',
+      username: '',
     };
   }
 
@@ -15,11 +15,18 @@ class HelloUser extends React.Component {
       username: e.target.value,
     });
   }
-
+  
   render() {
+    let you;
+
+    if (this.state.username !== "") {
+      you = <span>Hey, {this.state.username}!</span>;
+    }
+
     return <div>
-      Hello, {this.state.username}! <br />
-      Would you like to change your name? <input value={this.state.username} onChange={this.handleChange.bind(this)} />
+      Hello, I am {this.props.me}! <br />
+      What is your name? <input value={this.state.username} onChange={this.handleChange.bind(this)} /> <br />
+      <br /> {you}
     </div>
   }
 }
@@ -27,6 +34,6 @@ class HelloUser extends React.Component {
 // ========================================
 
 ReactDOM.render(
-  <HelloUser />,
+  <HelloUser me="Bob" />,
   document.getElementById('root')
 );
