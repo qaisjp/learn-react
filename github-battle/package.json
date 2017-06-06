@@ -23,6 +23,6 @@
     "presets": ["env", "react"]
   },
   "scripts": {
-    "start": "webpack -w"
+    "start": "webpack-dev-server --open"
   }
 }
