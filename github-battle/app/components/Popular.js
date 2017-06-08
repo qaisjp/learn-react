@@ -1,25 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class SelectLanguage extends React.Component {
-    render() {
-        const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
+const SelectLanguage = (props) => {
+    const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
 
-        return (
-            <ul className='languages'>
-                {languages.map(lang => {
-                    return (
-                        <li
-                            className={lang === this.props.selectedLanguage ? 'active' : ''}
-                            onClick={this.props.onSelect.bind(null, lang)}
-                            key={lang}>
-                            {lang}
-                        </li>
-                    )
-                })}
-            </ul>
-        );
-    }
+    return (
+        <ul className='languages'>
+            {languages.map(lang => {
+                return (
+                    <li
+                        className={lang === props.selectedLanguage ? 'active' : ''}
+                        onClick={props.onSelect.bind(null, lang)}
+                        key={lang}>
+                        {lang}
+                    </li>
+                )
+            })}
+        </ul>
+    );
 }
 
 SelectLanguage.propTypes = {
