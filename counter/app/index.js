@@ -5,12 +5,33 @@ import './index.css';
 
 import App from './components/App';
 
-const counter = (state = 0, action) => {
+const addCounter = list => {
+    return [...list, 0];
+}
+
+const removeCounter = (list, id) => {
+    return [
+        ...list.slice(0, id),
+        ...list.slice(id+1),
+    ];
+}
+
+const incrementCounter = (list, id, amount) => {
+    return [
+        ...list.slice(0, id),
+        list[id] + amount,
+        ...list.slice(id+1),
+    ];
+}
+
+const counter = (state = [], action) => {
     switch (action.type) {
-    case 'INCREMENT':
-        return state + 1;
-    case 'DECREMENT':
-        return state - 1;
+    case 'ADD':
+        return addCounter(state);
+    case 'REMOVE':
+        return removeCounter(state, action.id);
+    case 'UPDATE':
+        return incrementCounter(state, action.id, action.amount);
     default:
         return state;
     }
@@ -21,8 +42,10 @@ const render = () => {
     ReactDOM.render(
         <App
             value={store.getState()}
-            onIncrement={store.dispatch.bind(null, {type: "INCREMENT"})}
-            onDecrement={store.dispatch.bind(null, {type: "DECREMENT"})}
+            onAdd={store.dispatch.bind(null, {type: "ADD"})}
+            onRemove={store.dispatch.bind(null, {type: "REMOVE", id: store.getState().length - 1})}
+            onUpdate={(id, amount) => store.dispatch({type: "UPDATE", id, amount})
+            }
         />,
         document.getElementById('app')
     );
