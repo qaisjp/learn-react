@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import './index.css';
 
 import App from './components/App';
@@ -25,7 +25,7 @@ const removeTodo = (state, id) => {
     ]
 }
 
-const visibilityFilter = (state = "SHOW_ALL", action) => {
+const visibility = (state = "SHOW_ALL", action) => {
     switch (action.type) {
     case 'SET_FILTER':
         return action.filter;
@@ -47,12 +47,7 @@ const todos = (state = [], action) => {
     }
 };
 
-const todoApp = (state = {}, action) => {
-    return {
-        todos: todos(state.todos, action),
-        visibility: visibilityFilter(state.visibility, action),
-    };
-}
+const todoApp = combineReducers({todos, visibility});
 
 const store = createStore(todoApp);
 const render = () => {
