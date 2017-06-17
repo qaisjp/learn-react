@@ -25,7 +25,16 @@ const removeTodo = (state, id) => {
     ]
 }
 
-const todo = (state = [], action) => {
+const visibilityFilter = (state = "SHOW_ALL", action) => {
+    switch (action.type) {
+    case 'SET_FILTER':
+        return action.filter;
+    default:
+        return state;
+    }
+}
+
+const todos = (state = [], action) => {
     switch (action.type) {
     case 'ADD_TODO':
         return addTodo(state, action.text);
@@ -38,15 +47,22 @@ const todo = (state = [], action) => {
     }
 };
 
-const store = createStore(todo);
+const todoApp = (state = {}, action) => {
+    return {
+        todos: todos(state.todos, action),
+        visibility: visibilityFilter(state.visibility, action),
+    };
+}
+
+const store = createStore(todoApp);
 const render = () => {
     ReactDOM.render(
         <App
             value={store.getState()}
             onAdd={text => store.dispatch({type: "ADD_TODO", text})}
             onRemove={id => store.dispatch({type: "REMOVE_TODO", id})}
-            onUpdate={(id, completed) => store.dispatch({type: "UPDATE_TODO", id, completed})
-            }
+            onUpdate={(id, completed) => store.dispatch({type: "UPDATE_TODO", id, completed})}
+            onFilterUpdate={filter => store.dispatch({type: "SET_FILTER", filter})}
         />,
         document.getElementById('app')
     );
