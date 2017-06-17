@@ -5,24 +5,25 @@ import './index.css';
 
 import App from './components/App';
 
-const addTodo = (state, text) => {
-    const completed = false;
-    return [...state, {text, completed}];
+let nextTodoID = 0;
+
+const addTodo = (text) => {
+    const id = nextTodoID;
+    nextTodoID++;
+
+    return {id, text, completed: false};
 }
 
-const updateTodo = (state, id, completed) => {
-    return [
-        ...state.slice(0, id),
-        Object.assign({}, state[id], {completed}),
-        ...state.slice(id+1),
-    ]
+const toggleTodo = (todo, id) => {
+    if (todo.id !== id) {
+        return todo;
+    }
+
+    return {...todo, completed: !todo.completed};
 }
 
 const removeTodo = (state, id) => {
-    return [
-        ...state.slice(0, id),
-        ...state.slice(id+1),
-    ]
+    return state.filter(todo => todo.id !== id);
 }
 
 const visibility = (state = "SHOW_ALL", action) => {
@@ -34,14 +35,23 @@ const visibility = (state = "SHOW_ALL", action) => {
     }
 }
 
+const todo = (state, action) => {
+    switch(action.type) {
+    case 'ADD_TODO':
+        return addTodo(action.text);
+    case 'TOGGLE_TODO':
+        return toggleTodo(state, action.id);
+    }
+}
+
 const todos = (state = [], action) => {
     switch (action.type) {
     case 'ADD_TODO':
-        return addTodo(state, action.text);
+        return [...state, todo(undefined, action)];
     case 'REMOVE_TODO':
         return removeTodo(state, action.id);
-    case 'UPDATE_TODO':
-        return updateTodo(state, action.id, action.completed);
+    case 'TOGGLE_TODO':
+        return state.map(t => todo(t, action));
     default:
         return state;
     }
@@ -56,7 +66,7 @@ const render = () => {
             value={store.getState()}
             onAdd={text => store.dispatch({type: "ADD_TODO", text})}
             onRemove={id => store.dispatch({type: "REMOVE_TODO", id})}
-            onUpdate={(id, completed) => store.dispatch({type: "UPDATE_TODO", id, completed})}
+            onToggle={id => store.dispatch({type: "TOGGLE_TODO", id})}
             onFilterUpdate={filter => store.dispatch({type: "SET_FILTER", filter})}
         />,
         document.getElementById('app')

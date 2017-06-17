@@ -43,7 +43,7 @@ export default class App extends React.Component {
 
                 <ul>
                 {
-                    this.props.value.todos.map(({text, completed}, i) => {
+                    this.props.value.todos.map(({text, completed, id}) => {
                         if (completed && this.props.value.visibility === "SHOW_PENDING") {
                             return null;
                         }
@@ -53,14 +53,14 @@ export default class App extends React.Component {
                         }
                         
                         return (
-                            <li key={i} style={{cursor:"pointer"}}>
-                                <span onClick={this.props.onUpdate.bind(null, i, !completed)}>
+                            <li key={id} style={{cursor:"pointer"}}>
+                                <span onClick={this.props.onToggle.bind(null, id)}>
                                 {
                                     completed ? <strike>{text}</strike> : text
                                 }
                                 </span>
 
-                                <button onClick={this.handleDelete.bind(this, i)}>x</button>
+                                <button onClick={this.handleDelete.bind(this, id)}>x</button>
                             </li>
                         );
                     })
