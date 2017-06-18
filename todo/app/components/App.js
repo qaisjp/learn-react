@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import InputTodo from './InputTodo';
+import TodoItem from './TodoItem';
 
 const Filters = ({onFilterUpdate}) => {
     return (
@@ -21,69 +23,6 @@ Filters.propTypes = {
     onFilterUpdate: PropTypes.func.isRequired,
 };
 
-class InputTodo extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {text: ""};
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({text: event.target.value});
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        this.props.onSubmit(this.state.text);
-        this.setState({text: ""});
-    }
-
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                Add todo, <input type="text" value={this.state.text} onChange={this.handleChange}></input>
-            </form>
-        );
-    }
-}
-
-InputTodo.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-}
-
-const TodoItem = ({id, text, completed, visibility, onToggle, onRemove}) => {
-    if (completed && visibility === "SHOW_PENDING") {
-        return null;
-    }
-                        
-    if (!completed && visibility === "SHOW_COMPLETED") {
-        return null;
-    }
-                        
-    return (
-        <li style={{cursor:"pointer"}}>
-            <span onClick={onToggle.bind(null, id)}>
-            {
-                completed ? <strike>{text}</strike> : text
-            }
-            </span>
-
-            <button onClick={onRemove.bind(null, id)}>x</button>
-        </li>
-    );
-};
-
-TodoItem.propTypes = {
-    id: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired,
-    visibility: PropTypes.oneOf(["SHOW_PENDING", "SHOW_COMPLETED", "SHOW_ALL"]).isRequired,
-    onToggle: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired,
-}
-
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -97,6 +36,7 @@ export default class App extends React.Component {
     }
 
     render() {
+        console.log(this.context)
         return (
             <div className='container'>
                 <Filters onFilterUpdate={this.props.onFilterUpdate} />
@@ -118,6 +58,10 @@ export default class App extends React.Component {
             </div>
         );
     }
+}
+
+App.contextTypes = {
+    store: PropTypes.object
 }
 
 App.propTypes = {
