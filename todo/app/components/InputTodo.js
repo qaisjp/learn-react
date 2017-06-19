@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-export default class InputTodo extends React.Component {
+class InputTodo extends React.Component {
     constructor(props) {
         super(props);
 
@@ -29,6 +30,12 @@ export default class InputTodo extends React.Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onSubmit: text => { dispatch({type: "ADD_TODO", text}) }
+});
+
+export default connect(null, mapDispatchToProps)(InputTodo);
 
 InputTodo.propTypes = {
     onSubmit: PropTypes.func.isRequired,

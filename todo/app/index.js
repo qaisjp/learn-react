@@ -57,13 +57,7 @@ const store = createStore(todoApp);
 const render = () => {
     ReactDOM.render(
         <Provider store={store}>
-            <App
-                value={store.getState()}
-                onAdd={text => store.dispatch({type: "ADD_TODO", text})}
-                onRemove={id => store.dispatch({type: "REMOVE_TODO", id})}
-                onToggle={id => store.dispatch({type: "TOGGLE_TODO", id})}
-                onFilterUpdate={filter => store.dispatch({type: "SET_FILTER", filter})}
-            />
+            <App/>
         </Provider>,
         document.getElementById('app')
     );

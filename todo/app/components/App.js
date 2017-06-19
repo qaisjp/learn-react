@@ -2,28 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import InputTodo from './InputTodo';
 import TodoItem from './TodoItem';
+import FilterButtons from './FilterButtons';
+import { connect } from 'react-redux';
 
-const Filters = ({onFilterUpdate}) => {
-    return (
-        <div>
-            Update filter: 
-            {
-            ["SHOW_ALL", "SHOW_COMPLETED", "SHOW_PENDING"].map(filter => {
-                return [
-                    <button onClick={onFilterUpdate.bind(null, filter)}>{filter}</button>,
-                    " ",
-                ];
-            })
-            }
-        </div>
-    );
-}
-
-Filters.propTypes = {
-    onFilterUpdate: PropTypes.func.isRequired,
-};
-
-export default class App extends React.Component {
+class App extends React.Component {
     constructor(props) {
         super(props);
 
@@ -39,18 +21,15 @@ export default class App extends React.Component {
         console.log(this.context)
         return (
             <div className='container'>
-                <Filters onFilterUpdate={this.props.onFilterUpdate} />
-                <InputTodo onSubmit={this.props.onAdd} />
+                <FilterButtons />
+                <InputTodo />
 
                 <ul>
                 {
-                    this.props.value.todos.map(todo => (
+                    this.props.todos.map(todo => (
                         <TodoItem
                             {...todo}
                             key={todo.id}
-                            visibility={this.props.value.visibility}
-                            onToggle={this.props.onToggle}
-                            onRemove={this.handleRemove}
                         />
                     ))
                 }
@@ -60,14 +39,12 @@ export default class App extends React.Component {
     }
 }
 
-App.contextTypes = {
-    store: PropTypes.object
-}
-
 App.propTypes = {
-    value: PropTypes.object.isRequired,
-    onAdd: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    onFilterUpdate: PropTypes.func.isRequired,
+    todos: PropTypes.array.isRequired,
 };
+
+const mapStateToProps = state => ({
+    todos: state.todos,
+});
+
+export default connect(mapStateToProps, null)(App);

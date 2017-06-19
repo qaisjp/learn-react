@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const TodoItem = ({id, text, completed, visibility, onToggle, onRemove}) => {
     if (completed && visibility === "SHOW_PENDING") {
@@ -32,4 +33,13 @@ TodoItem.propTypes = {
     onRemove: PropTypes.func.isRequired,
 }
 
-export default TodoItem
+const mapStateToProps = (state) => ({
+    visibility: state.visibility,
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onRemove: id => { dispatch({type: "REMOVE_TODO", id}) },
+    onToggle: id => { dispatch({type: "TOGGLE_TODO", id}) }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoItem);
