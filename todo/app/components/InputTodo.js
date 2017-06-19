@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { addTodo } from '../actions/todo';
 
 class InputTodo extends React.Component {
     constructor(props) {
@@ -32,7 +33,7 @@ class InputTodo extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onSubmit: text => { dispatch({type: "ADD_TODO", text}) }
+    onSubmit: text => { dispatch(addTodo(text)) }
 });
 
 export default connect(null, mapDispatchToProps)(InputTodo);

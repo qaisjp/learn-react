@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { removeTodo, toggleTodo } from '../actions/todo';
 
 const TodoItem = ({id, text, completed, visibility, onToggle, onRemove}) => {
     if (completed && visibility === "SHOW_PENDING") {
@@ -38,8 +39,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onRemove: id => { dispatch({type: "REMOVE_TODO", id}) },
-    onToggle: id => { dispatch({type: "TOGGLE_TODO", id}) }
+    onRemove: id => { dispatch(removeTodo(id)) },
+    onToggle: id => { dispatch(toggleTodo(id)) }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoItem);

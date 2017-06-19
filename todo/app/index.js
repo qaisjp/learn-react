@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import './index.css';
-
 import App from './components/App';
 
-let nextTodoID = 0;
 
 const toggleTodo = (todo, id) => {
     if (todo.id !== id) {
@@ -32,7 +30,7 @@ const visibility = (state = "SHOW_ALL", action) => {
 const todo = (state, action) => {
     switch(action.type) {
     case 'ADD_TODO':
-        return {id: nextTodoID++, text: action.text, completed: false};
+        return {id: action.id, text: action.text, completed: false};
     case 'TOGGLE_TODO':
         return toggleTodo(state, action.id);
     }

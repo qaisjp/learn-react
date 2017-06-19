@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { setFilter } from '../actions/todo';
 
 const FilterButtons = ({onFilterUpdate}) => {
     return (
@@ -23,7 +24,7 @@ FilterButtons.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onFilterUpdate: filter => { dispatch({type: "SET_FILTER", filter}) },
+    onFilterUpdate: filter => { dispatch(setFilter(filter)) },
 });
 
 export default connect(null, mapDispatchToProps)(FilterButtons)
