@@ -24,7 +24,7 @@ FilterButtons.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onFilterUpdate: filter => { dispatch(setFilter(filter)) },
+    onFilterUpdate(filter) { dispatch(setFilter(filter)) },
 });
 
 export default connect(null, mapDispatchToProps)(FilterButtons)
