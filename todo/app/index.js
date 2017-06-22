@@ -4,6 +4,7 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { loadState, saveState } from './localStorage';
 import './index.css';
+import throttle from 'lodash/throttle';
 import App from './components/App';
 
 
@@ -55,9 +56,9 @@ const todoApp = combineReducers({todos, visibility});
 const persistedState = loadState()
 const store = createStore(todoApp, persistedState);
 
-store.subscribe(() => saveState({
+store.subscribe(throttle(() => saveState({
     todos: store.getState().todos
-}))
+}), 1000))
 
 const render = () => {
     console.log(JSON.stringify(store.getState()))
