@@ -51,8 +51,11 @@ const todos = (state = [], action) => {
 
 const todoApp = combineReducers({todos, visibility});
 
-const store = createStore(todoApp);
+const defaultState = {"todos":[{"id":0,"text":"Done.","completed":true},{"id":1,"text":"Not done!","completed":false},{"id":2,"text":"Not done here either..","completed":false},{"id":3,"text":"Done!","completed":true},{"id":4,"text":"Ok...","completed":false}],"visibility":"SHOW_ALL"};
+const store = createStore(todoApp, defaultState);
+
 const render = () => {
+    console.log(JSON.stringify(store.getState()))
     ReactDOM.render(
         <Provider store={store}>
             <App/>
