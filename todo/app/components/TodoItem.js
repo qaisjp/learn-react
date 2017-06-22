@@ -26,7 +26,7 @@ const TodoItem = ({id, text, completed, visibility, onToggle, onRemove}) => {
 };
 
 TodoItem.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
     visibility: PropTypes.oneOf(["SHOW_PENDING", "SHOW_COMPLETED", "SHOW_ALL"]).isRequired,

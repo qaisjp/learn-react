@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import { loadState, saveState } from './localStorage';
 import './index.css';
 import App from './components/App';
 
@@ -51,8 +52,12 @@ const todos = (state = [], action) => {
 
 const todoApp = combineReducers({todos, visibility});
 
-const defaultState = {"todos":[{"id":0,"text":"Done.","completed":true},{"id":1,"text":"Not done!","completed":false},{"id":2,"text":"Not done here either..","completed":false},{"id":3,"text":"Done!","completed":true},{"id":4,"text":"Ok...","completed":false}],"visibility":"SHOW_ALL"};
-const store = createStore(todoApp, defaultState);
+const persistedState = loadState()
+const store = createStore(todoApp, persistedState);
+
+store.subscribe(() => saveState({
+    todos: store.getState().todos
+}))
 
 const render = () => {
     console.log(JSON.stringify(store.getState()))
