@@ -12,15 +12,6 @@ const removeTodo = (state, id) => {
     return state.filter(todo => todo.id !== id);
 }
 
-const visibility = (state = "all", action) => {
-    switch (action.type) {
-    case 'SET_FILTER':
-        return action.filter;
-    default:
-        return state;
-    }
-}
-
 const todo = (state, action) => {
     switch(action.type) {
     case 'ADD_TODO':
@@ -43,5 +34,5 @@ const todos = (state = [], action) => {
     }
 };
 
-const todoApp = combineReducers({todos, visibility});
+const todoApp = combineReducers({todos});
 export default todoApp;
