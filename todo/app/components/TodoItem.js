@@ -39,9 +39,11 @@ const mapStateToProps = (_, { match }) => ({
     visibility: match.params.filter || 'all',
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-    onRemove(id) { dispatch(removeTodo(id)) },
-    onToggle(id) { dispatch(toggleTodo(id)) }
-});
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoItem));
+export default withRouter(connect(
+    mapStateToProps,
+    {
+        onRemove: removeTodo,
+        onToggle: toggleTodo,
+    }
+)(TodoItem));

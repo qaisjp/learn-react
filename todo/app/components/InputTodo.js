@@ -32,11 +32,7 @@ class InputTodo extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-    onSubmit(text) { dispatch(addTodo(text)) }
-});
-
-export default connect(null, mapDispatchToProps)(InputTodo);
+export default connect(null, {onSubmit: addTodo})(InputTodo);
 
 InputTodo.propTypes = {
     onSubmit: PropTypes.func.isRequired,
