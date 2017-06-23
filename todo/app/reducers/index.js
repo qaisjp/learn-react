@@ -12,7 +12,7 @@ const removeTodo = (state, id) => {
     return state.filter(todo => todo.id !== id);
 }
 
-const visibility = (state = "SHOW_ALL", action) => {
+const visibility = (state = "all", action) => {
     switch (action.type) {
     case 'SET_FILTER':
         return action.filter;

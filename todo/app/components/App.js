@@ -27,6 +27,7 @@ class App extends React.Component {
                 {
                     this.props.todos.map(todo => (
                         <TodoItem
+                            visibility={this.props.match.params.filter || 'all'}
                             {...todo}
                             key={todo.id}
                         />
