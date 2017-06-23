@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { removeTodo, toggleTodo } from '../actions/todo';
+import { withRouter } from 'react-router';
 
 const TodoItem = ({id, text, completed, visibility, onToggle, onRemove}) => {
     if (completed && visibility === "pending") {
@@ -34,10 +35,13 @@ TodoItem.propTypes = {
     onRemove: PropTypes.func.isRequired,
 }
 
+const mapStateToProps = (_, { match }) => ({
+    visibility: match.params.filter || 'all',
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     onRemove(id) { dispatch(removeTodo(id)) },
     onToggle(id) { dispatch(toggleTodo(id)) }
 });
 
-export default connect(null, mapDispatchToProps)(TodoItem);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoItem));
