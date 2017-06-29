@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import InputTodo from './InputTodo';
 import TodoItem from './TodoItem';
 import FilterButtons from './FilterButtons';
+import { getAllTodos } from '../reducers';
 import { connect } from 'react-redux';
 
 class App extends React.Component {
@@ -43,7 +44,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    todos: state.todos,
+    todos: getAllTodos(state),
 });
 
 export default connect(mapStateToProps, null)(App);

@@ -1,13 +1,11 @@
+import { combineReducers } from 'redux';
+
 const toggleTodo = (todo, id) => {
     if (todo.id !== id) {
         return todo;
     }
 
     return {...todo, completed: !todo.completed};
-}
-
-const removeTodo = (state, id) => {
-    return state.filter(todo => todo.id !== id);
 }
 
 const todo = (state, action) => {
@@ -19,17 +17,41 @@ const todo = (state, action) => {
     }
 }
 
-const todos = (state = [], action) => {
+const removeTodo = (state, id) => {
+    var newState = Object.assign({}, state);
+    delete newState[id];
+    return newState;
+}
+
+const byID = (state = {}, action) => {
     switch (action.type) {
     case 'ADD_TODO':
-        return [...state, todo(undefined, action)];
+    case 'TOGGLE_TODO':
+        return {
+            ...state,
+            [action.id]: todo(state[action.id], action)
+        };
     case 'REMOVE_TODO':
         return removeTodo(state, action.id);
-    case 'TOGGLE_TODO':
-        return state.map(t => todo(t, action));
     default:
         return state;
     }
 };
 
-export default todos;
+const allIDs = (state = [], action) => {
+    switch (action.type) {
+    case 'ADD_TODO':
+        return [...state, action.id];
+    case 'REMOVE_TODO':
+        return [
+            ...state.slice(0, state.indexOf(action.id)),
+            ...state.slice(state.indexOf(action.id)+1)
+        ];
+    default:
+        return state;
+    }
+}
+
+export const getAllTodos = (state) => state.allIDs.map(id => state.byID[id])
+
+export default combineReducers({byID, allIDs});
